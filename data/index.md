@@ -1,5 +1,5 @@
-Title = "Home page"
-Template = "index"
+title = "Home page"
+template = "index"
 +++
 
 ## Test
