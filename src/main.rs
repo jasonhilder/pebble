@@ -1,6 +1,6 @@
 mod builder;
 
-use std::env;
+use std::{env, fs, process};
 use std::path::PathBuf;
 use clap::{Command, Arg, crate_version};
 
@@ -22,6 +22,11 @@ pub fn cli() -> Command<'static> {
             Command::new("build")
                 .about("build the site")
         )
+}
+
+pub fn cleanup_and_exit() {
+    fs::remove_dir_all("build").unwrap();
+    process::exit(0)
 }
 
 fn main() {

@@ -11,3 +11,5 @@ clap = { version = "3.1.16", features = ["cargo"] }
 serde = { version = "1.0.137", features = ["derive"] }
 pulldown-cmark = "0.9.1"
 toml = "0.5.9"
+tera = "1"
+comrak = "0.13.1"
