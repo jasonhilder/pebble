@@ -23,7 +23,6 @@ struct FileData {
 }
 
 // @TODO cleanup/teardown function to exit the cli without partially built directory
-
 // @TODO Error if the Front matter Cannot be converted to struct
 fn get_structured_content(raw_text: &String, is_nested_dir: bool) -> Option<FileData> {
     if !raw_text.is_empty() {

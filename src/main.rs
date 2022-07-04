@@ -1,8 +1,8 @@
 mod builder;
 
-use std::{env, fs, process};
+use clap::{crate_version, Arg, Command};
 use std::path::PathBuf;
-use clap::{Command, Arg, crate_version};
+use std::{env, fs, process};
 
 pub fn cli() -> Command<'static> {
     Command::new("pebble")
@@ -16,12 +16,9 @@ pub fn cli() -> Command<'static> {
                 .long("path")
                 .takes_value(true)
                 .default_value(".")
-                .help("Directory path of project")
+                .help("Directory path of project"),
         )
-        .subcommand(
-            Command::new("build")
-                .about("build the site")
-        )
+        .subcommand(Command::new("build").about("build the site"))
 }
 
 pub fn cleanup_and_exit() {
@@ -40,9 +37,7 @@ fn main() {
     };
 
     match matches.subcommand() {
-        Some(("build", _)) => {
-            builder::build(&project_path)
-        }
+        Some(("build", _)) => builder::build(&project_path),
         _ => unreachable!(),
     }
 }
