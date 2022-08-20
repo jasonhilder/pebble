@@ -1,5 +1,5 @@
 title = "About page"
-template = "about"
+template = "about.html"
 ++++
 
 ## About title

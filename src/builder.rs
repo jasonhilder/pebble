@@ -1,10 +1,10 @@
 use std::io::Write;
-use std::{fs, process};
 use std::path::Path;
+use std::{fs, process};
 
-use serde::{Deserialize, Serialize};
-use tera::{Tera, Context};
 use comrak::{markdown_to_html, ComrakOptions};
+use serde::{Deserialize, Serialize};
+use tera::{Context, Tera};
 
 use crate::cleanup_and_exit;
 
@@ -12,14 +12,14 @@ use crate::cleanup_and_exit;
 #[derive(Deserialize, Serialize, Debug)]
 struct Frontmatter {
     title: String,
-    template: Option<String>
+    template: Option<String>,
 }
 
 #[allow(dead_code)]
 #[derive(Deserialize, Serialize, Debug)]
 struct FileData {
     front_matter: Frontmatter,
-    content: String
+    content: String,
 }
 
 // @TODO cleanup/teardown function to exit the cli without partially built directory
@@ -44,9 +44,9 @@ fn get_structured_content(raw_text: &String, is_nested_dir: bool) -> Option<File
             cleanup_and_exit();
         }
 
-        Some(FileData{
+        Some(FileData {
             front_matter: fm,
-            content: md_html
+            content: md_html,
         })
     } else {
         None
@@ -59,7 +59,9 @@ pub fn build_data_files(current_dir: &Path, nested_dir: bool, tera: &Tera) {
     let paths = fs::read_dir(current_dir).unwrap();
 
     for path in paths {
-        let content_path = path.as_ref().unwrap_or_else(|e| panic!("error for path: {:?} \n {:?}", path, e));
+        let content_path = path
+            .as_ref()
+            .unwrap_or_else(|e| panic!("error for path: {:?} \n {:?}", path, e));
 
         if content_path.path().is_file() {
             // get the raw markdown
@@ -70,12 +72,14 @@ pub fn build_data_files(current_dir: &Path, nested_dir: bool, tera: &Tera) {
             if let Some(content) = structured_content {
                 // render at this point
                 if let Some(tmp) = &content.front_matter.template {
-                    let rendered_content = tera.render(
-                        tmp,
-                        &Context::from_serialize(&content).unwrap()
-                    ).unwrap();
+                    let rendered_content = tera
+                        .render(tmp, &Context::from_serialize(&content).unwrap())
+                        .unwrap();
 
-                    let build_path = &content_path.path().to_string_lossy().replace("/data", "/build");
+                    let build_path = &content_path
+                        .path()
+                        .to_string_lossy()
+                        .replace("/data", "/build");
                     let build_path = build_path.replace(".md", ".html");
 
                     create_build_path(Path::new(&build_path));

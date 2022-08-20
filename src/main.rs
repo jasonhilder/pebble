@@ -4,6 +4,10 @@ use clap::{crate_version, Arg, Command};
 use std::path::PathBuf;
 use std::{env, fs, process};
 
+pub struct Test {
+
+}
+
 pub fn cli() -> Command<'static> {
     Command::new("pebble")
         .about("A small static site generator")

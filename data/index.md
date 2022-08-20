@@ -1,5 +1,5 @@
 title = "Home page"
-template = "index"
+template = "index.html"
 ++++
 
 ## Test
